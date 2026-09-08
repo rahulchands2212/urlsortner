@@ -19,7 +19,10 @@ async function handleredirect(req,res){
     const db = client.db("urlshortner");
     const user = db.collection("user");
     const result = await user.findOne({shortid:shorturl});
-    res.redirect(result.longurl);
+    if(result ===null){
+        return res.status(404).json({message : "short url not found"});
+    }
+   return res.redirect(result.longurl);
 }
 
 module.exports = {
