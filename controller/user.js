@@ -22,7 +22,9 @@ async function handlelongurl(req, res) {
     shortid: shorturl,
   };
   await user.insertOne(temp);
-  res.status(201).json(temp);
+  res.render("home",{
+    id : shorturl,
+  })
 }
 
 async function handleredirect(req, res) {
@@ -34,22 +36,15 @@ async function handleredirect(req, res) {
   return res.redirect(result.longurl);
 }
 
-async function  handledisplayallurl(req,res){
-   const allurl = await user.find({}).toArray();
-    return res.end(`
-    <html>
-    <head></head>
-    <body>
-    <ol>
-    ${allurl.map(url=>`<li>${url.shortid}  :      ${url.longurl} </li>`).join(" ")}
-    </ol>
-    </body>
-    </html>
-    `);
+async function  handlehome(req,res){
+  const allurl = await user.find({}).toArray();
+    return res.render('home',{
+      urls : allurl,
+    });
 }
 
 module.exports = {
   handlelongurl,
   handleredirect,
-  handledisplayallurl,
+  handlehome,
 };

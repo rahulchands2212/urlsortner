@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { handlelongurl, handleredirect, handledisplayallurl } = require("../controller/user");
+const { handlelongurl, handleredirect } = require("../controller/user");
 
-router.route('/allurl')
-.get(handledisplayallurl);
 
-router.route('/')
+
+router.route('/urls')
 .post(handlelongurl);
 
 router.route('/:shortid')
