@@ -5,9 +5,4 @@ const router = express.Router();
 router.route("/")
 .get(handlehome);
 
-
-
-
-
-
 module.exports = router;

@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const { dbconnected } = require("./connection/user");
-const urlrouter = require("./router/users");
+const urlrouter = require("./router/urls");
 const staticrouter = require("./router/staticrouter");
 const port = 7000;
 

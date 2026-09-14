@@ -4,27 +4,330 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>home page</title>
-    <style>
-      body {
-        font-family:
-          "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-      }
-    </style>
+   <style>
+  :root {
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --text: #111827;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --background: #f5f7fb;
+    --white: #ffffff;
+    --success: #16a34a;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 40px 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--background);
+    color: var(--text);
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: auto;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 48px;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: var(--muted);
+    margin-bottom: 35px;
+  }
+
+  /* URL Form */
+
+  .url-box {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+  }
+
+  form {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  label {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  input {
+    width: 500px;
+    max-width: 100%;
+    height: 45px;
+    padding: 0 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+  }
+
+  input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+  }
+
+  button {
+    height: 45px;
+    padding: 0 22px;
+    border: none;
+    border-radius: 8px;
+    background: var(--primary);
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  button:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+  }
+
+  /* Generated URL */
+
+  .generated {
+    background: #ecfdf5;
+    border: 1px solid #bbf7d0;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+  }
+
+  .generated h3 {
+    margin-top: 0;
+  }
+
+  .generated p {
+    color: var(--success);
+    font-size: 16px;
+    font-weight: 600;
+    word-break: break-all;
+  }
+
+  /* History */
+
+  .history {
+    background: var(--white);
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    overflow-x: auto;
+  }
+
+  .history h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 750px;
+  }
+
+  th {
+    background: #f3f4f6;
+    color: #374151;
+    font-size: 14px;
+    text-align: left;
+    padding: 13px;
+  }
+
+  td {
+    padding: 13px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+
+  tr:hover {
+    background: #f9fafb;
+  }
+
+  td a {
+    color: var(--primary);
+    text-decoration: none;
+  }
+
+  td a:hover {
+    text-decoration: underline;
+  }
+
+  /* Mobile */
+
+  @media (max-width: 700px) {
+
+    body {
+      padding: 25px 12px;
+    }
+
+    h1 {
+      font-size: 34px;
+    }
+
+    .url-box {
+      padding: 20px;
+    }
+
+    form {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    label {
+      text-align: left;
+    }
+
+    input {
+      width: 100%;
+    }
+
+    button {
+      width: 100%;
+    }
+
+    .history {
+      padding: 15px;
+    }
+  }
+
+  @keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.container > * {
+  animation: fadeUp 0.7s ease forwards;
+}
+</style>
   </head>
 
   <body>
-    <center>
-    <h1>Url shortner</h1>
-    <% if (locals.id) { %>
-        <h2>Generated url : http://localhost:7000/<%= id %></h2>
-    <% } %>
-    <div>
+
+  <div class="container">
+
+    <h1>URL Shortener</h1>
+
+    <p class="subtitle">
+      Convert your long URLs into short and easy-to-share links
+    </p>
+
+    <div class="url-box">
       <form method="post" action="/urls">
-        <label>Enter Original url</label>
-        <input type="text" name="url" placeholder="http://example.com"/>
+
+        <label>Enter Original URL</label>
+
+        <input
+          type="text"
+          name="url"
+          placeholder="https://example.com"
+          required
+        />
+
         <button type="submit">Generate</button>
+
       </form>
     </div>
-    </center>
-  </body>
+
+
+    <% if (locals.id) { %>
+
+      <div class="generated">
+
+        <h3>Generated URL</h3>
+
+        <p>
+          http://localhost:7000/<%= id %>
+        </p>
+
+      </div>
+
+    <% } %>
+
+
+    <div class="history">
+
+      <h2>URL History</h2>
+
+      <% if (locals.urls) { %>
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>S No</th>
+              <th>Original URL</th>
+              <th>Short URL</th>
+              <th>Click Count</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <% urls.forEach((url, index) => { %>
+
+              <tr>
+
+                <td><%= index + 1 %></td>
+
+                <td><%= url.longurl %></td>
+
+                <td>
+                  <a href="/<%= url.shortid %>">
+                    http://localhost:7000/<%= url.shortid %>
+                  </a>
+                </td>
+
+                <td><%= url.clickcount %></td>
+
+                <td>
+                  <%= new Date(url.createdat).toLocaleString("en-IN", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit"
+                  }) %>
+                </td>
+
+              </tr>
+
+            <% }) %>
+
+          </tbody>
+
+        </table>
+
+      <% } %>
+
+    </div>
+
+  </div>
+
+</body>
 </html>
