@@ -1,54 +1,25 @@
-const Url = require("../model/url");
-const crypto = require("crypto");
- 
-function shortidgen() {
-  const shortid = crypto.randomBytes(3).toString("base64url");
-  return shortid;
+const user = require("../model/user");
+
+async function handlecreateuser(req, res) {
+  const { name, email, password } = req.body;
+  await user.create({
+    name,
+    email,
+    password,
+  });
+  return res.redirect("/");
 }
 
-async function handlelongurl(req, res) {
-  const url = req.body.url;
-  if(!url){
-    return res.status(400).send("Please enter a URL");
-  }
-  
-  let shorturl = shortidgen();
-  //check the id is already genrated or not
-  let check = await Url.findOne({ shortid: shorturl });
-  while (check !== null) {
-    shorturl = shortidgen();
-     check = await Url.findOne({ shortid: shorturl });
-  }
-  const temp = {
-    longurl: url,
-    shortid: shorturl,
-  };
-  await Url.create(temp);
-  res.render("home",{
-    id : shorturl,  
-  })
-}
-
-async function handleredirect(req, res) {
-  const shorturl = req.params.shortid;
-  const result = await Url.findOne({ shortid: shorturl });
-  if (result === null) {
-    return res.status(404).json({ message: "short url not found" });
-  }
-  result.clickcount +=1;
-  result.save();
-  return res.redirect(result.longurl);
-}
-
-async function  handlehome(req,res){
-  const allurl = await Url.find({});
-    return res.render('home',{
-      urls : allurl,
+async function handlelogin(req, res) {
+  const { email, password } = req.body;
+  const result = await user.findOne({ email, password });
+  if (!result)
+    return res.render("login", {
+      error: "invalid  email or password",
     });
+  return res.redirect("/");
 }
-
 module.exports = {
-  handlelongurl,
-  handleredirect,
-  handlehome,
+  handlecreateuser,
+  handlelogin,
 };

@@ -237,7 +237,7 @@
     </p>
 
     <div class="url-box">
-      <form method="post" action="/urls">
+      <form method="post" action="/url">
 
         <label>Enter Original URL</label>
 
@@ -261,7 +261,7 @@
         <h3>Generated URL</h3>
 
         <p>
-          http://localhost:7000/<%= id %>
+          http://localhost:7000/url/<%= id %>
         </p>
 
       </div>
@@ -298,8 +298,8 @@
                 <td><%= url.longurl %></td>
 
                 <td>
-                  <a href="/<%= url.shortid %>">
-                    http://localhost:7000/<%= url.shortid %>
+                  <a href="/url/<%= url.shortid %>">
+                    http://localhost:7000/url/<%= url.shortid %>
                   </a>
                 </td>
 
