@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const { dbconnected } = require("./connection/user");
-
+const cookieparser = require("cookie-parser");
+const { restrictTouserLoginOnly,Checkauth} = require("./middleware/auth");
 const port = 7000;
 
 const urlrouter = require("./router/urls");
@@ -14,9 +15,10 @@ app.set("views",path.resolve("./views"));
 
 app.use(express.json());
 app.use(express.urlencoded({extended : false}));
+app.use(cookieparser());
 
-app.use("/url",urlrouter);
-app.use("/",staticrouter);
+app.use("/url",restrictTouserLoginOnly,urlrouter);
+app.use("/",Checkauth,staticrouter);
 app.use("/user",userrouter);
 
 

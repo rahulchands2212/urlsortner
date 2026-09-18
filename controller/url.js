@@ -19,11 +19,13 @@ async function handlelongurl(req, res) {
     shorturl = shortidgen();
      check = await Url.findOne({ shortid: shorturl });
   }
-  const temp = {
-    longurl: url,
-    shortid: shorturl,
-  };
-  await Url.create(temp);
+
+  await Url.create({
+     longurl: url,
+     shortid: shorturl,
+     createdby: req.user._id,
+  });
+
   res.render("home",{
     id : shorturl,  
   })
@@ -41,7 +43,8 @@ async function handleredirect(req, res) {
 }
 
 async function  handlehome(req,res){
-  const allurl = await Url.find({});
+    if(!req.user) return res.redirect("/login");
+    const allurl = await Url.find({createdby:req.user._id});
     return res.render('home',{
       urls : allurl,
     });
