@@ -10,13 +10,16 @@ const urlrouter = require("./router/urls");
 const staticrouter = require("./router/staticrouter");
 const userrouter = require("./router/user");
 
+//srs
 app.set("view engine","ejs");
 app.set("views",path.resolve("./views"));
 
+//middle wares
 app.use(express.json());
 app.use(express.urlencoded({extended : false}));
 app.use(cookieparser());
 
+//routes
 app.use("/url",restrictTouserLoginOnly,urlrouter);
 app.use("/",Checkauth,staticrouter);
 app.use("/user",userrouter);

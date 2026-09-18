@@ -14,7 +14,6 @@ async function Checkauth(req,res,next){
     const user = getid(useruid);
     req.user = user;
     next();
-
 }
 
 module.exports ={
