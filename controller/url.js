@@ -42,8 +42,15 @@ async function handleredirect(req, res) {
   return res.redirect(result.longurl);
 }
 
+async function  adminUrl(req,res){
+    const allurl = await Url.find();
+    return res.render('home',{
+      urls : allurl,
+    });
+}
+
+
 async function  handlehome(req,res){
-    if(!req.user) return res.redirect("/login");
     const allurl = await Url.find({createdby:req.user._id});
     return res.render('home',{
       urls : allurl,
@@ -64,4 +71,5 @@ module.exports = {
   handlehome,
   handlesignup,
   handlelogin,
+  adminUrl,
 };

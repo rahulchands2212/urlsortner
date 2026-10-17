@@ -20,8 +20,9 @@ async function handlelogin(req, res) {
     });
 
    const token =  setid(result);
-    res.cookie("uid",token);
+    res.cookie("token",token);
   return res.redirect("/");
+
 }
 module.exports = {
   handlecreateuser,

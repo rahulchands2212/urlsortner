@@ -10,10 +10,15 @@ const userschema = new mongoose.Schema({
         required:true,
         unique:true,
     },
+    role:{
+        type:String,
+        require:true,
+        default:"NORMAL",
+    },
     password:{
         type:String,
-        required:true
-    }
+        required:true,
+    },
 },
 {timestamps:true}
 );
